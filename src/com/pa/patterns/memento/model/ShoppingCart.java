@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-public class ShoppingCart implements Originator {
+public class ShoppingCart {
     private List<Product> products;
 
     public ShoppingCart() {
@@ -39,19 +39,6 @@ public class ShoppingCart implements Originator {
     @Override
     public String toString() {
         return String.valueOf(products);
-    }
-
-    @Override
-    public Memento createMemento() {
-        return new MyMemento(products);
-    }
-
-    @Override
-    public void setMemento(Memento savedState) {
-        if (savedState instanceof MyMemento) {
-            reset();
-            getProducts().addAll(((MyMemento) savedState).getState());
-        }
     }
 
     private class MyMemento implements Memento {

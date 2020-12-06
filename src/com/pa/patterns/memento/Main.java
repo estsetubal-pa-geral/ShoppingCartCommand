@@ -5,9 +5,6 @@
  */
 package com.pa.patterns.memento;
 
-import com.pa.patterns.memento.model.NoMementoException;
-import com.pa.patterns.memento.model.ShoppingCartController;
-
 public class Main {
     public static void main(String[] args) throws NoMementoException {
         /*

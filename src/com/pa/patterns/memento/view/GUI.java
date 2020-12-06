@@ -1,6 +1,5 @@
 package com.pa.patterns.memento.view;
 
-import com.pa.patterns.memento.model.NoMementoException;
 import com.pa.patterns.memento.model.Product;
 import com.pa.patterns.memento.model.ShoppingCartController;
 import javafx.application.Application;
@@ -90,12 +89,6 @@ public class GUI extends Application {
         buttonUndo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                try {
-                    shoppingCartController.undo(comboBoxMemento.getValue());
-                } catch (NoMementoException e) {
-                    error("No previous state recorded.");
-                }
-                updateProductCartList();
             }
         });
 
