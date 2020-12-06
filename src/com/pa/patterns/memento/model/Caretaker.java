@@ -5,25 +5,47 @@
  */
 package com.pa.patterns.memento.model;
 
-import java.util.Stack;
+import java.util.*;
 
 public class Caretaker {
+    private Map<Date, Memento> objMementos;
+//    private Stack<Memento> objMementos;
+//    private Memento memento;
 
-    private Stack<Memento> objMementos;
     private Originator originator;
 
     public Caretaker(Originator originator) {
         this.originator = originator;
-        objMementos = new Stack();
+        objMementos = new HashMap<Date, Memento>();
+//        objMementos = new Stack();
     }
 
     public void saveState() {
-        objMementos.add(originator.createMemento());
+        objMementos.put(new Date(), originator.createMemento());
+//        objMementos.add(originator.createMemento());
+//        memento = originator.createMemento();
     }
 
-    public void restoreState() {
-        if (!objMementos.empty())
-            originator.setMemento(objMementos.pop());
+    public void restoreState(Date date) throws NoMementoException {
+        Memento memento = objMementos.get(date);
+        if(memento == null){
+            throw new NoMementoException();
+        }
+        originator.setMemento(memento);
+    }
+/*
+    public void restoreState() throws NoMementoException {
+        if (objMementos.empty()) {
+            throw new NoMementoException();
+        }
+        originator.setMemento(objMementos.pop());
+//        if (memento == null) {
+//            throw new NoMementoException();
+//        }
+//        originator.setMemento(memento);
+    }*/
 
+    public Collection<Date> getDates() {
+        return objMementos.keySet();
     }
 }

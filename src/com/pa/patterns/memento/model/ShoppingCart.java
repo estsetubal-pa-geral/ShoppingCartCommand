@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pa.patterns.memento.model;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -49,32 +43,29 @@ public class ShoppingCart implements Originator {
 
     @Override
     public Memento createMemento() {
-        Memento memento = new MyMemento(products);
-        return memento;
+        return new MyMemento(products);
     }
 
     @Override
     public void setMemento(Memento savedState) {
         if (savedState instanceof MyMemento) {
-            products.clear();
-            products.addAll(((MyMemento) savedState).state);
+            reset();
+            getProducts().addAll(((MyMemento) savedState).getState());
         }
     }
 
     private class MyMemento implements Memento {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
-
         private List state;
-        private String description;
+        private Date date;
 
         public MyMemento(List<Product> stateToSave) {
-            this.description = "ProductList saved state from " + simpleDateFormat.format(new Date());
             this.state = new ArrayList<>(stateToSave); //copy of list
+            this.date = new Date();
         }
 
         @Override
-        public String getDescrtiption() {
-            return description;
+        public List<Product> getState() {
+            return state;
         }
     }
 }

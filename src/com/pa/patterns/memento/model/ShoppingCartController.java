@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.pa.patterns.memento.model;
 
 import java.util.Collection;
+import java.util.Date;
 
 public class ShoppingCartController {
     private ShoppingCart cart;
@@ -37,8 +33,12 @@ public class ShoppingCartController {
         return;
     }
 
-    public void undo() {
-        caretaker.restoreState();
+    public Collection<Date> getDates(){
+        return caretaker.getDates();
+    }
+
+    public void undo(Date date) throws NoMementoException {
+        caretaker.restoreState(date);
     }
 
     public Collection<Product> getProducts() {

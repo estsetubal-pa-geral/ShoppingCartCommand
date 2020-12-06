@@ -1,5 +1,6 @@
 package com.pa.patterns.memento.view;
 
+import com.pa.patterns.memento.model.NoMementoException;
 import com.pa.patterns.memento.model.Product;
 import com.pa.patterns.memento.model.ShoppingCartController;
 import javafx.application.Application;
@@ -13,9 +14,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
+import java.util.Date;
+
 public class GUI extends Application {
     private ShoppingCartController shoppingCartController;
     private ListView<Product> listViewCartContents;
+    private ComboBox<Date> comboBoxMemento;
 
     public static void main(String[] args) {
         launch(args);
@@ -71,25 +75,35 @@ public class GUI extends Application {
         listViewCartContents = new ListView<>();
         gridPaneCartContents.add(labelCartContents, 0, 0);
         gridPaneCartContents.add(listViewCartContents, 0, 1);
-        HBox hBoxCartContentsButtons = new HBox();
+
+        comboBoxMemento = new ComboBox<>();
+        comboBoxMemento.setPromptText("Select a time to restore");
         Button buttonUndo = new Button("Undo");
-        hBoxCartContentsButtons.getChildren().add(buttonUndo);
-        hBoxCartContentsButtons.setAlignment(Pos.CENTER_RIGHT);
-        hBoxCartContentsButtons.setStyle("-fx-padding: 2px 0 0 0");
-        gridPaneCartContents.add(hBoxCartContentsButtons, 0, 2);
+        HBox hBoxUndo = new HBox();
+        hBoxUndo.getChildren().add(comboBoxMemento);
+        hBoxUndo.getChildren().add(buttonUndo);
+        hBoxUndo.setAlignment(Pos.CENTER_RIGHT);
+        hBoxUndo.setStyle("-fx-padding: 2px 0 0 0");
+        gridPaneCartContents.add(hBoxUndo, 0, 2);
         GridPane.setHgrow(listViewCartContents, Priority.ALWAYS);
 
         buttonUndo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                shoppingCartController.undo();
+                try {
+                    shoppingCartController.undo(comboBoxMemento.getValue());
+                } catch (NoMementoException e) {
+                    error("No previous state recorded.");
+                }
                 updateProductCartList();
             }
         });
 
         gridPaneMain.add(gridPaneCartContents, 0, 1);
-        gridPaneMain.setStyle("-fx-padding: 5px");
 
+        updateProductCartList();
+
+        gridPaneMain.setStyle("-fx-padding: 5px");
         Scene scene = new Scene(gridPaneMain);
         stage.setTitle("Shopping Cart");
         stage.setScene(scene);
@@ -102,6 +116,9 @@ public class GUI extends Application {
         for (Product product : shoppingCartController.getProducts()) {
             listViewCartContents.getItems().add(product);
         }
+
+        comboBoxMemento.getItems().clear();
+        comboBoxMemento.getItems().addAll(shoppingCartController.getDates());
     }
 
     private void error(String message) {
