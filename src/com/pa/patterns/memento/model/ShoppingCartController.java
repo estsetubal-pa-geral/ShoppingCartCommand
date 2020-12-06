@@ -5,40 +5,30 @@ import java.util.Date;
 
 public class ShoppingCartController {
     private ShoppingCart cart;
-    private Caretaker caretaker;
 
     public ShoppingCartController() {
         cart = new ShoppingCart();
-        caretaker = new Caretaker(cart);
     }
 
     public void addProduct(String name, double cost) {
-        caretaker.saveState();
         Product p = new Product(name, cost);
         cart.addProduct(p);
     }
 
     public void reset() {
-        caretaker.saveState();
         cart.reset();
     }
 
     public void removeProduct(String name) {
         for (Product p : cart.getProducts())
             if (p.getName().equals(name)) {
-                caretaker.saveState();
                 cart.removeProduct(p);
                 return;
             }
         return;
     }
 
-    public Collection<Date> getDates(){
-        return caretaker.getDates();
-    }
-
-    public void undo(Date date) throws NoMementoException {
-        caretaker.restoreState(date);
+    public void undo(Date date) {
     }
 
     public Collection<Product> getProducts() {

@@ -75,12 +75,15 @@ public class GUI extends Application {
         gridPaneCartContents.add(labelCartContents, 0, 0);
         gridPaneCartContents.add(listViewCartContents, 0, 1);
 
+        HBox hBoxUndo = new HBox();
+
         comboBoxMemento = new ComboBox<>();
         comboBoxMemento.setPromptText("Select a time to restore");
+//        hBoxUndo.getChildren().add(comboBoxMemento);
+
         Button buttonUndo = new Button("Undo");
-        HBox hBoxUndo = new HBox();
-        hBoxUndo.getChildren().add(comboBoxMemento);
         hBoxUndo.getChildren().add(buttonUndo);
+
         hBoxUndo.setAlignment(Pos.CENTER_RIGHT);
         hBoxUndo.setStyle("-fx-padding: 2px 0 0 0");
         gridPaneCartContents.add(hBoxUndo, 0, 2);
@@ -109,9 +112,6 @@ public class GUI extends Application {
         for (Product product : shoppingCartController.getProducts()) {
             listViewCartContents.getItems().add(product);
         }
-
-        comboBoxMemento.getItems().clear();
-        comboBoxMemento.getItems().addAll(shoppingCartController.getDates());
     }
 
     private void error(String message) {
