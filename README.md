@@ -15,8 +15,7 @@ See about Commmand Pattern in : https://refactoring.guru/design-patterns/command
     - MainConsola (to test, the features, add, remove, reset and undo)
     - MainGui que é a app com GUI construida em JavaFX
  
- In this application the classes has the following roles on the pattern command
-  ![](images/pattern.JPG)
+ In this application the classes has the following roles on the pattern command ![](images/pattern.JPG)
   
   
   
