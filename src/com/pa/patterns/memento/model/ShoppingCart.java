@@ -5,12 +5,16 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-public class ShoppingCart implements Originator {
+public class ShoppingCart {
     private List<Product> products;
 
     public ShoppingCart() {
         products = new ArrayList<>();
     }
+    public ShoppingCart(ShoppingCart cart) {
+        products = new ArrayList<>(cart.getProducts());
+    }
+
 
     public void addProduct(Product p) {
         products.add(p);
@@ -41,31 +45,9 @@ public class ShoppingCart implements Originator {
         return String.valueOf(products);
     }
 
-    @Override
-    public Memento createMemento() {
-        return new MyMemento(products);
-    }
 
-    @Override
-    public void setMemento(Memento savedState) {
-        if (savedState instanceof MyMemento) {
-            reset();
-            getProducts().addAll(((MyMemento) savedState).getState());
-        }
-    }
-
-    private class MyMemento implements Memento {
-        private List state;
-        private Date date;
-
-        public MyMemento(List<Product> stateToSave) {
-            this.state = new ArrayList<>(stateToSave); //copy of list
-            this.date = new Date();
-        }
-
-        @Override
-        public List<Product> getState() {
-            return state;
-        }
+    public void setCart(ShoppingCart oldCart) {
+        products.clear();
+        this.products.addAll(oldCart.products);
     }
 }

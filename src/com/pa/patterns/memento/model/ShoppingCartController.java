@@ -2,43 +2,42 @@ package com.pa.patterns.memento.model;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Stack;
 
 public class ShoppingCartController {
     private ShoppingCart cart;
-    private Caretaker caretaker;
+    private Stack<Command> commands;
 
     public ShoppingCartController() {
         cart = new ShoppingCart();
-        caretaker = new Caretaker(cart);
+        commands = new Stack();
     }
 
     public void addProduct(String name, double cost) {
-        caretaker.saveState();
-        Product p = new Product(name, cost);
-        cart.addProduct(p);
+        Command c = new AddCommand(cart,name,cost);
+        c.execute();
+        commands.push(c);
     }
 
     public void reset() {
-        caretaker.saveState();
-        cart.reset();
+        Command c = new ResetCommand(cart);
+        c.execute();
+        commands.push(c);
     }
 
     public void removeProduct(String name) {
-        for (Product p : cart.getProducts())
-            if (p.getName().equals(name)) {
-                caretaker.saveState();
-                cart.removeProduct(p);
-                return;
-            }
-        return;
+        Command c = new RemoveCommand(cart,name);
+        c.execute();
+        commands.push(c);
     }
 
-    public Collection<Date> getDates(){
-        return caretaker.getDates();
-    }
 
-    public void undo(Date date) throws NoMementoException {
-        caretaker.restoreState(date);
+    public void undo() {
+        if (commands.empty())
+            throw new ShoppingCartException("No Undo");
+        Command cmd = commands.pop();
+        cmd.unExecute();
+        System.out.println("UNDO");
     }
 
     public Collection<Product> getProducts() {
