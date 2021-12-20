@@ -1,4 +1,4 @@
-package com.pa.patterns.memento.model;
+package com.pa.patterns.command.model;
 
 import java.util.Objects;
 

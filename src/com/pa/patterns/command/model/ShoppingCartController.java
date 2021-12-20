@@ -1,7 +1,6 @@
-package com.pa.patterns.memento.model;
+package com.pa.patterns.command.model;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.Stack;
 
 public class ShoppingCartController {

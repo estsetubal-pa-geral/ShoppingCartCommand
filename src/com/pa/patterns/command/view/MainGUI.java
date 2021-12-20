@@ -1,4 +1,4 @@
-package com.pa.patterns.memento.view;
+package com.pa.patterns.command.view;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
