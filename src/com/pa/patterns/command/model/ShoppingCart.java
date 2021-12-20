@@ -23,8 +23,18 @@ public class ShoppingCart {
         products.clear();
     }
 
-    public void removeProduct(Product p) {
+    public Product removeProduct(Product p) {
         products.remove(p);
+            return p;
+    }
+
+    public Product removeProduct(String name) {
+        for (Product p : products)
+            if (p.getName().equals(name)) {
+                removeProduct(p);
+                return p;
+            }
+        return null;
     }
 
     public Collection<Product> getProducts() {

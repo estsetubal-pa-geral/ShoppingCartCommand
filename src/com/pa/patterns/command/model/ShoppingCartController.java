@@ -5,37 +5,33 @@ import java.util.Stack;
 
 public class ShoppingCartController {
     private ShoppingCart cart;
-    private Stack<Command> commands;
+    private CommandManager commandmanager;
+
 
     public ShoppingCartController() {
         cart = new ShoppingCart();
-        commands = new Stack();
+        commandmanager= new CommandManager();
+
     }
 
     public void addProduct(String name, double cost) {
         Command c = new AddCommand(cart,name,cost);
-        c.execute();
-        commands.push(c);
+        commandmanager.executeCommand(c);
     }
 
     public void reset() {
         Command c = new ResetCommand(cart);
-        c.execute();
-        commands.push(c);
+        commandmanager.executeCommand(c);
     }
 
     public void removeProduct(String name) {
         Command c = new RemoveCommand(cart,name);
-        c.execute();
-        commands.push(c);
+        commandmanager.executeCommand(c);
     }
 
 
     public void undo() {
-        if (commands.empty())
-            throw new ShoppingCartException("No Undo");
-        Command cmd = commands.pop();
-        cmd.unExecute();
+        commandmanager.undo();
         System.out.println("UNDO");
     }
 
