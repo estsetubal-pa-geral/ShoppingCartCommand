@@ -16,7 +16,7 @@ See about Commmand Pattern in : https://refactoring.guru/design-patterns/command
     - MainGui que é a app com GUI construida em JavaFX
  
  In this application the classes has the following roles on the pattern command
-  ![](images/patternCommand.JPG)
+  ![](images/pattern.JPG)
   
   
   
